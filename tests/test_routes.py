@@ -169,3 +169,17 @@ class TestAccountService(TestCase):
         response = self.client.delete(f"{BASE_URL}/{account.id}")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+    def test_list_accounts(self):
+        """It should list all existing accounts"""
+        accounts = self._create_accounts(10)
+        response = self.client.get(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data['accounts']), 10)
+
+    def test_list_accounts_not_found(self):
+        """It should return an empty list if no account is found"""
+        response = self.client.get(BASE_URL)
+        data = response.get_json()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(data['accounts']), 0)
