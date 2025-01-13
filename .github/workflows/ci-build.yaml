@@ -9,7 +9,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Ubuntu version pinned to 22.04 due to failing CI Workflow
+    # See https://github.com/actions/runner-images/issues/10636
+    runs-on: ubuntu-22.04
     container: python:3.9-slim
 
     services:
